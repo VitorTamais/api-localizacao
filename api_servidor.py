@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, send_from_directory, abort
 import os
 
 app = Flask(__name__)
@@ -20,6 +20,14 @@ def upload_file():
 
     return "Arquivo recebido com sucesso", 200
 
+# Rota para visualizar ou baixar o arquivo
+@app.route("/logs/<filename>", methods=["GET"])
+def get_file(filename):
+    try:
+        return send_from_directory("logs", filename)
+    except FileNotFoundError:
+        abort(404, description="Arquivo não encontrado")
+
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))  # Usa a porta definida pelo Render ou 5000 como fallback
+    port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
