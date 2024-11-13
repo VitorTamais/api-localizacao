@@ -18,6 +18,8 @@ def upload_file():
     os.makedirs("logs", exist_ok=True)
     file.save(save_path)
 
+    print(f"Arquivo salvo em: {save_path}")  # Adicione esta linha para verificar onde o arquivo foi salvo
+
     return "Arquivo recebido com sucesso", 200
 
 # Rota para visualizar ou baixar o arquivo
