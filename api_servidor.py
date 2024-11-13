@@ -21,4 +21,5 @@ def upload_file():
     return "Arquivo recebido com sucesso", 200
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    port = int(os.environ.get("PORT", 5000))  # Usa a porta definida pelo Render ou 5000 como fallback
+    app.run(host="0.0.0.0", port=port)
