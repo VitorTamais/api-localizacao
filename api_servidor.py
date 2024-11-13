@@ -12,15 +12,18 @@ def upload_file():
     file = request.files["file"]
     if file.filename == "":
         return "Nome do arquivo vazio", 400
-    
-    # Salvar o arquivo na pasta logs
+
+    # Definir o caminho do arquivo
     save_path = os.path.join("logs", file.filename)
     os.makedirs("logs", exist_ok=True)
-    file.save(save_path)
+    
+    # Abrir o arquivo existente no modo 'append' (a) para adicionar novos dados
+    with open(save_path, "a") as f:
+        f.write(file.read().decode("utf-8"))  # Adiciona o conteúdo enviado ao final do arquivo
 
-    print(f"Arquivo salvo em: {save_path}")  # Adicione esta linha para verificar onde o arquivo foi salvo
+    print(f"Arquivo atualizado com dados em: {save_path}")  # Verificar o caminho e os dados salvos
 
-    return "Arquivo recebido com sucesso", 200
+    return "Arquivo atualizado com sucesso", 200
 
 # Rota para visualizar ou baixar o arquivo
 @app.route("/logs/<filename>", methods=["GET"])
